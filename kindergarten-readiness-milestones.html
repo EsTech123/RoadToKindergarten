@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Road to Kindergarten — Developmental Milestones by Age</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FDF6EC;
+    --text: #2D2418;
+    --text-soft: #6B5D4F;
+    --card-bg: #FFFFFF;
+    --border: #E8DDD0;
+    --accent-2: #E8A44A;
+    --accent-2-light: #FEF3E0;
+    --accent-3: #D4785C;
+    --accent-3-light: #FDEAE4;
+    --accent-4: #5B8A6E;
+    --accent-4-light: #E3F2E8;
+    --accent-5: #5E7BAB;
+    --accent-5-light: #E1EBF7;
+    --check-green: #4CAF50;
+    --shadow: 0 2px 12px rgba(45,36,24,0.06);
+    --shadow-hover: 0 6px 24px rgba(45,36,24,0.1);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 48px 24px 32px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--accent-4-light);
+    color: var(--accent-4);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.2;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .hero p {
+    color: var(--text-soft);
+    font-size: 15px;
+    max-width: 540px;
+    margin: 0 auto 24px;
+  }
+
+  .sources-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    font-size: 13px;
+    padding: 8px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .sources-toggle:hover {
+    background: var(--card-bg);
+    border-color: var(--text-soft);
+  }
+
+  .sources-panel {
+    display: none;
+    max-width: 600px;
+    margin: 16px auto 0;
+    text-align: left;
+    background: var(--card-bg);
+    border-radius: var(--radius-sm);
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+  }
+  .sources-panel.open { display: block; }
+  .sources-panel h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .sources-panel a {
+    display: block;
+    color: var(--accent-5);
+    font-size: 13px;
+    margin-bottom: 6px;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .sources-panel a:hover { text-decoration: underline; }
+  .sources-panel p {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* Age Navigation */
+  .age-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 24px 32px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+    padding-top: 12px;
+  }
+
+  .age-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 22px;
+    border-radius: 50px;
+    border: 2px solid var(--border);
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+  }
+  .age-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+
+  .age-btn[data-age="2"] { --btn-accent: var(--accent-2); --btn-light: var(--accent-2-light); }
+  .age-btn[data-age="3"] { --btn-accent: var(--accent-3); --btn-light: var(--accent-3-light); }
+  .age-btn[data-age="4"] { --btn-accent: var(--accent-4); --btn-light: var(--accent-4-light); }
+  .age-btn[data-age="5"] { --btn-accent: var(--accent-5); --btn-light: var(--accent-5-light); }
+
+  .age-btn.active {
+    background: var(--btn-light);
+    border-color: var(--btn-accent);
+    color: var(--btn-accent);
+  }
+
+  .age-btn .progress-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    margin-left: 8px;
+    vertical-align: middle;
+    transition: background 0.3s;
+  }
+  .age-btn.has-checks .progress-dot { background: var(--check-green); }
+
+  /* Content Area */
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .age-section { display: none; }
+  .age-section.active { display: block; animation: fadeUp 0.35s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .age-header {
+    margin-bottom: 28px;
+    padding: 24px 28px;
+    border-radius: var(--radius);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+
+  .age-header h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+  .age-header .subtitle {
+    color: var(--text-soft);
+    font-size: 14px;
+  }
+  .age-header .progress-bar-wrap {
+    margin-top: 14px;
+    background: #F0E9DE;
+    border-radius: 50px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .age-header .progress-bar {
+    height: 100%;
+    border-radius: 50px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .age-header .progress-label {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 6px;
+    text-align: right;
+  }
+
+  [data-age="2"] .age-header .progress-bar { background: var(--accent-2); }
+  [data-age="3"] .age-header .progress-bar { background: var(--accent-3); }
+  [data-age="4"] .age-header .progress-bar { background: var(--accent-4); }
+  [data-age="5"] .age-header .progress-bar { background: var(--accent-5); }
+
+  /* Category */
+  .category {
+    margin-bottom: 24px;
+  }
+
+  .category-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .category-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  /* Milestone items */
+  .milestone {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .milestone:hover {
+    box-shadow: var(--shadow);
+    border-color: #ccc;
+  }
+  .milestone.checked {
+    background: #F6FBF6;
+    border-color: #C8E6C9;
+  }
+  .milestone.checked .check-box {
+    background: var(--check-green);
+    border-color: var(--check-green);
+  }
+  .milestone.checked .check-box svg { opacity: 1; }
+
+  .check-box {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .check-box svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+  }
+
+  .milestone-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  /* Footer note */
+  .footer-note {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    text-align: center;
+  }
+  .footer-note p {
+    font-size: 12px;
+    color: var(--text-soft);
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+
+  @media (max-width: 500px) {
+    .hero { padding: 32px 16px 20px; }
+    .age-nav { gap: 6px; padding: 0 12px 20px; }
+    .age-btn { padding: 8px 14px; font-size: 13px; }
+    .content { padding: 0 12px 40px; }
+    .age-header { padding: 18px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Developmental Milestones</div>
+  <h1>Road to Kindergarten</h1>
+  <p>A research-backed checklist of the social, cognitive, language, physical, and self-care skills children typically develop between ages 2 and 5. Track your child's progress at your own pace.</p>
+  <button class="sources-toggle" onclick="toggleSources()">View Sources &amp; References</button>
+  <div class="sources-panel" id="sourcesPanel">
+    <h3>Sources Used</h3>
+    <a href="https://www.cdc.gov/act-early/milestones/index.html" target="_blank">CDC "Learn the Signs. Act Early." Developmental Milestones (2022 revision)</a>
+    <a href="https://arbetterbeginnings.com/parents-families/family-resource-library/child-care-checklist-and-tips/kindergarten-readiness-indicator-checklist" target="_blank">Arkansas Better Beginnings — Kindergarten Readiness Indicator Checklist</a>
+    <a href="https://www.brighthorizons.com/article/children/kindergarten-readiness-checklist" target="_blank">Bright Horizons — Kindergarten Readiness Checklist</a>
+    <a href="https://www.leapfrog.com/en-us/learning-path/articles/kindergarten-skills-checklist" target="_blank">LeapFrog — Kindergarten Skills Checklist</a>
+    <a href="https://www.uen.org/parents/kindergarten_readiness.shtml" target="_blank">Utah Education Network — Kindergarten Readiness</a>
+    <a href="https://www.beginlearning.com/parent-resources/kindergarten-readiness-checklist/" target="_blank">Begin Learning — 7 Essential Kindergarten Skills</a>
+    <a href="https://brighterfuturesindiana.org/blog/the-ultimate-kindergarten-readiness-checklist" target="_blank">Brighter Futures Indiana — The Ultimate Kindergarten Readiness Checklist</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11025040/" target="_blank">PMC — CDC's Revised Developmental Milestone Checklists (Pediatrics)</a>
+    <p>These milestones reflect what 75% or more of children can do by a given age per the CDC's revised 2022 standards, combined with kindergarten readiness checklists from educators. Every child develops at their own pace. Talk to your pediatrician with any concerns.</p>
+  </div>
+</div>
+
+<div class="age-nav">
+  <button class="age-btn active" data-age="2" onclick="showAge(2)">Age 2 <span class="progress-dot"></span></button>
+  <button class="age-btn" data-age="3" onclick="showAge(3)">Age 3 <span class="progress-dot"></span></button>
+  <button class="age-btn" data-age="4" onclick="showAge(4)">Age 4 <span class="progress-dot"></span></button>
+  <button class="age-btn" data-age="5" onclick="showAge(5)">Age 5 <span class="progress-dot"></span></button>
+</div>
+
+<div class="content" id="content"></div>
+
+<div class="footer-note">
+  <p>This checklist is for informational purposes only and is not a substitute for professional developmental screening. If you have concerns about your child's development, contact your pediatrician. You can also download the free CDC Milestone Tracker app.</p>
+</div>
+
+<script>
+const DATA = {
+  2: {
+    label: "Age 2 (24–30 months)",
+    subtitle: "Building foundations — early language, parallel play, and first independence",
+    categories: [
+      {
+        name: "Social & Emotional",
+        icon: "💛",
+        iconBg: "#FEF3E0",
+        items: [
+          "Plays next to other children and sometimes plays with them",
+          "Shows you what they can do by saying \"Look at me!\"",
+          "Follows simple routines when told (e.g., helps pick up toys at clean-up time)",
+          "Begins to show defiant behavior (this is normal and healthy)",
+          "Gets excited around other children"
+        ]
+      },
+      {
+        name: "Language & Communication",
+        icon: "💬",
+        iconBg: "#E8F4FD",
+        items: [
+          "Says about 50 words",
+          "Says two or more words together with an action word (e.g., \"doggie run\")",
+          "Names things in a book when you point and ask \"what is this?\"",
+          "Uses words like \"I,\" \"me,\" or \"we\"",
+          "Points to at least two body parts when asked"
+        ]
+      },
+      {
+        name: "Cognitive & Early Learning",
+        icon: "🧩",
+        iconBg: "#F3E8FD",
+        items: [
+          "Uses things to pretend (e.g., feeds a doll with a block as if it were food)",
+          "Shows simple problem-solving (e.g., stands on a stool to reach something)",
+          "Follows two-step instructions (e.g., \"put the toy down and close the door\")",
+          "Begins to sort shapes and colors",
+          "Completes sentences and rhymes in familiar books"
+        ]
+      },
+      {
+        name: "Physical & Motor Skills",
+        icon: "🏃",
+        iconBg: "#E3F2E8",
+        items: [
+          "Kicks a ball",
+          "Runs",
+          "Walks up a few stairs with or without help",
+          "Eats with a spoon",
+          "Stacks blocks or rings in order of size"
+        ]
+      },
+      {
+        name: "Self-Care & Independence",
+        icon: "🌱",
+        iconBg: "#FEF3E0",
+        items: [
+          "Helps with dressing (pulls up pants, puts arms through sleeves)",
+          "Shows interest in using the toilet (readiness varies widely)",
+          "Washes and dries hands with some help",
+          "Drinks from an open cup"
+        ]
+      }
+    ]
+  },
+  3: {
+    label: "Age 3",
+    subtitle: "Growing social awareness — conversations, early counting, and self-regulation",
+    categories: [
+      {
+        name: "Social & Emotional",
+        icon: "💛",
+        iconBg: "#FEF3E0",
+        items: [
+          "Calms down within about 10 minutes after being left (e.g., at childcare drop-off)",
+          "Notices other children and joins them to play",
+          "Takes turns in games (with prompting)",
+          "Expresses a wide range of emotions",
+          "Starts to understand the concept of \"mine\" vs. \"theirs\""
+        ]
+      },
+      {
+        name: "Language & Communication",
+        icon: "💬",
+        iconBg: "#E8F4FD",
+        items: [
+          "Talks in conversation using at least two back-and-forth exchanges",
+          "Asks \"who,\" \"what,\" \"where,\" or \"why\" questions",
+          "Describes actions in a picture or book (\"running,\" \"eating\")",
+          "Says first name when asked",
+          "Talks well enough for others to understand most of the time"
+        ]
+      },
+      {
+        name: "Cognitive & Early Learning",
+        icon: "🧩",
+        iconBg: "#F3E8FD",
+        items: [
+          "Draws a circle when shown how",
+          "Avoids touching dangerous objects when warned (e.g., a hot stove)",
+          "Begins to understand counting (counts a few objects)",
+          "Understands concepts like in/out, under/over, on/off",
+          "Plays make-believe with dolls, animals, or people"
+        ]
+      },
+      {
+        name: "Physical & Motor Skills",
+        icon: "🏃",
+        iconBg: "#E3F2E8",
+        items: [
+          "Strings large beads or macaroni together",
+          "Puts on some clothes by themselves (loose pants, a jacket)",
+          "Uses a fork",
+          "Pedals a tricycle",
+          "Turns book pages one at a time"
+        ]
+      },
+      {
+        name: "Self-Care & Independence",
+        icon: "🌱",
+        iconBg: "#FEF3E0",
+        items: [
+          "Uses the toilet with some help",
+          "Washes hands independently",
+          "Expresses personal needs (\"I'm hungry,\" \"I'm tired\")",
+          "Follows simple rules and routines with reminders"
+        ]
+      }
+    ]
+  },
+  4: {
+    label: "Age 4",
+    subtitle: "Pre-K power — naming colors, pretend play, empathy, and early writing",
+    categories: [
+      {
+        name: "Social & Emotional",
+        icon: "💛",
+        iconBg: "#FEF3E0",
+        items: [
+          "Pretends to be something else during play (teacher, superhero, dog)",
+          "Asks to go play with other children when none are around",
+          "Comforts others who are hurt or sad (e.g., hugs a crying friend)",
+          "Avoids obvious dangers (e.g., not jumping from tall heights)",
+          "Likes to be a \"helper\"",
+          "Changes behavior based on setting (library vs. playground)"
+        ]
+      },
+      {
+        name: "Language & Communication",
+        icon: "💬",
+        iconBg: "#E8F4FD",
+        items: [
+          "Says sentences with four or more words",
+          "Says some words from a song, story, or nursery rhyme",
+          "Talks about at least one thing that happened during the day",
+          "Answers simple questions (\"What is a coat for?\")",
+          "Speaks clearly enough for strangers to understand"
+        ]
+      },
+      {
+        name: "Cognitive & Early Learning",
+        icon: "🧩",
+        iconBg: "#F3E8FD",
+        items: [
+          "Names a few colors of items",
+          "Tells what comes next in a well-known story",
+          "Draws a person with three or more body parts",
+          "Recognizes some letters, especially those in their own name",
+          "Understands the concept of counting and may count up to 5 or higher",
+          "Begins to understand the concept of time (morning, night, today, tomorrow)"
+        ]
+      },
+      {
+        name: "Physical & Motor Skills",
+        icon: "🏃",
+        iconBg: "#E3F2E8",
+        items: [
+          "Catches a large ball most of the time",
+          "Serves food or pours water with adult supervision",
+          "Unbuttons some buttons",
+          "Holds crayon or pencil between fingers and thumb (not a fist)",
+          "Hops and stands on one foot for up to 2 seconds"
+        ]
+      },
+      {
+        name: "Self-Care & Independence",
+        icon: "🌱",
+        iconBg: "#FEF3E0",
+        items: [
+          "Uses the toilet independently (though accidents are still normal)",
+          "Brushes teeth with help",
+          "Dresses and undresses with minimal help",
+          "Can express own health needs (\"My stomach hurts\")",
+          "Handles personal belongings (backpack, lunchbox)"
+        ]
+      }
+    ]
+  },
+  5: {
+    label: "Age 5 (Kindergarten Entry)",
+    subtitle: "Ready for school — rules, rhyming, counting to 10, letters, and sustained attention",
+    categories: [
+      {
+        name: "Social & Emotional",
+        icon: "💛",
+        iconBg: "#FEF3E0",
+        items: [
+          "Follows rules and takes turns when playing games with other children",
+          "Sings, dances, or acts for you",
+          "Does simple chores (matching socks, clearing the table)",
+          "Separates from parents without excessive distress",
+          "Shows awareness of right and wrong",
+          "Wants to please friends and be liked"
+        ]
+      },
+      {
+        name: "Language & Communication",
+        icon: "💬",
+        iconBg: "#E8F4FD",
+        items: [
+          "Tells a story with at least two events",
+          "Answers simple questions about a book or story",
+          "Keeps a conversation going with more than three back-and-forth exchanges",
+          "Uses or recognizes simple rhymes (bat–cat, ball–tall)",
+          "Speaks in complete sentences of five or more words",
+          "Speaks clearly enough to be understood by unfamiliar adults"
+        ]
+      },
+      {
+        name: "Cognitive & Early Learning",
+        icon: "🧩",
+        iconBg: "#F3E8FD",
+        items: [
+          "Counts to 10",
+          "Names some numbers between 1 and 5 when pointed to",
+          "Names some letters when pointed to",
+          "Writes some letters in their name",
+          "Uses words about time (\"yesterday,\" \"tomorrow,\" \"morning\")",
+          "Pays attention for 5 to 10 minutes during activities (not screen time)",
+          "Understands concepts of \"more,\" \"less,\" and \"same\""
+        ]
+      },
+      {
+        name: "Physical & Motor Skills",
+        icon: "🏃",
+        iconBg: "#E3F2E8",
+        items: [
+          "Buttons some buttons",
+          "Hops on one foot",
+          "Uses child-safe scissors to cut along a line",
+          "Writes or copies some letters and numbers",
+          "Draws basic shapes (circle, square, triangle)"
+        ]
+      },
+      {
+        name: "Self-Care & Independence",
+        icon: "🌱",
+        iconBg: "#FEF3E0",
+        items: [
+          "Uses the bathroom independently",
+          "Dresses independently (including zippers and most buttons)",
+          "Knows and can state their full name",
+          "Manages lunchbox, backpack, and coat on their own",
+          "Follows multi-step classroom routines"
+        ]
+      }
+    ]
+  }
+};
+
+// State
+let checkedItems = {};
+try {
+  const saved = localStorage.getItem('milestones-checked');
+  if (saved) checkedItems = JSON.parse(saved);
+} catch(e) {}
+
+function save() {
+  try { localStorage.setItem('milestones-checked', JSON.stringify(checkedItems)); } catch(e) {}
+}
+
+function getKey(age, catIdx, itemIdx) {
+  return `${age}-${catIdx}-${itemIdx}`;
+}
+
+function toggleSources() {
+  document.getElementById('sourcesPanel').classList.toggle('open');
+}
+
+function renderContent() {
+  const container = document.getElementById('content');
+  container.innerHTML = '';
+  for (const age of [2,3,4,5]) {
+    const d = DATA[age];
+    const section = document.createElement('div');
+    section.className = `age-section${age === 2 ? ' active' : ''}`;
+    section.dataset.age = age;
+
+    let totalItems = 0, checkedCount = 0;
+    d.categories.forEach((cat, ci) => {
+      cat.items.forEach((_, ii) => {
+        totalItems++;
+        if (checkedItems[getKey(age, ci, ii)]) checkedCount++;
+      });
+    });
+
+    const pct = totalItems > 0 ? Math.round((checkedCount / totalItems) * 100) : 0;
+
+    let html = `
+      <div class="age-header">
+        <h2>${d.label}</h2>
+        <div class="subtitle">${d.subtitle}</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+        <div class="progress-label">${checkedCount} of ${totalItems} milestones (${pct}%)</div>
+      </div>
+    `;
+
+    d.categories.forEach((cat, ci) => {
+      html += `
+        <div class="category">
+          <div class="category-title">
+            <div class="category-icon" style="background:${cat.iconBg}">${cat.icon}</div>
+            ${cat.name}
+          </div>
+      `;
+      cat.items.forEach((item, ii) => {
+        const key = getKey(age, ci, ii);
+        const checked = checkedItems[key] ? ' checked' : '';
+        html += `
+          <div class="milestone${checked}" data-key="${key}" onclick="toggleItem(this, '${key}')">
+            <div class="check-box">
+              <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+            </div>
+            <div class="milestone-text">${item}</div>
+          </div>
+        `;
+      });
+      html += '</div>';
+    });
+
+    section.innerHTML = html;
+    container.appendChild(section);
+  }
+  updateNavDots();
+}
+
+function toggleItem(el, key) {
+  if (checkedItems[key]) {
+    delete checkedItems[key];
+    el.classList.remove('checked');
+  } else {
+    checkedItems[key] = true;
+    el.classList.add('checked');
+  }
+  save();
+  updateProgress();
+  updateNavDots();
+}
+
+function updateProgress() {
+  document.querySelectorAll('.age-section').forEach(section => {
+    const age = section.dataset.age;
+    const d = DATA[age];
+    let total = 0, checked = 0;
+    d.categories.forEach((cat, ci) => {
+      cat.items.forEach((_, ii) => {
+        total++;
+        if (checkedItems[getKey(age, ci, ii)]) checked++;
+      });
+    });
+    const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+    const bar = section.querySelector('.progress-bar');
+    const label = section.querySelector('.progress-label');
+    if (bar) bar.style.width = pct + '%';
+    if (label) label.textContent = `${checked} of ${total} milestones (${pct}%)`;
+  });
+}
+
+function updateNavDots() {
+  document.querySelectorAll('.age-btn').forEach(btn => {
+    const age = btn.dataset.age;
+    const d = DATA[age];
+    let hasAny = false;
+    d.categories.forEach((cat, ci) => {
+      cat.items.forEach((_, ii) => {
+        if (checkedItems[getKey(age, ci, ii)]) hasAny = true;
+      });
+    });
+    btn.classList.toggle('has-checks', hasAny);
+  });
+}
+
+function showAge(age) {
+  document.querySelectorAll('.age-btn').forEach(b => b.classList.toggle('active', b.dataset.age == age));
+  document.querySelectorAll('.age-section').forEach(s => s.classList.toggle('active', s.dataset.age == age));
+}
+
+renderContent();
+</script>
+</body>
+</html>
